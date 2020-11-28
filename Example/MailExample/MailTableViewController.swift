@@ -163,6 +163,8 @@ extension MailTableViewController: SwipeTableViewCellDelegate {
         } else {
             let flag = SwipeAction(style: .default, title: nil, handler: nil)
             flag.hidesWhenSelected = true
+            flag.firstColor = UIColor.red
+            flag.secondColor = UIColor.orange
             configure(action: flag, with: .flag)
             
             let delete = SwipeAction(style: .destructive, title: nil) { action, indexPath in

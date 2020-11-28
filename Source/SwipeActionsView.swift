@@ -20,7 +20,7 @@ class SwipeActionsView: UIView {
     var feedbackGenerator: SwipeFeedback
     
     var expansionAnimator: SwipeAnimator?
-    
+
     var expansionDelegate: SwipeExpanding? {
         return options.expansionDelegate ?? (expandableAction?.hasBackgroundColor == false ? ScaleAndAlphaExpansion.default : nil)
     }
@@ -112,24 +112,30 @@ class SwipeActionsView: UIView {
         clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
         
-
-    #if canImport(Combine)
-        if let backgroundColor = options.backgroundColor {
-            self.backgroundColor = backgroundColor
-        }
-        else if #available(iOS 13.0, *) {
-            backgroundColor = UIColor.systemGray5
+        if let firstColor = options.firstColor, let secondColor = options.secondColor {
+            self.applyGradient(colours: [firstColor, secondColor])
         } else {
-            backgroundColor = #colorLiteral(red: 0.7803494334, green: 0.7761332393, blue: 0.7967314124, alpha: 1)
+            #if canImport(Combine)
+                if let backgroundColor = options.backgroundColor {
+                    self.backgroundColor = backgroundColor
+                }
+                else if #available(iOS 13.0, *) {
+                    backgroundColor = UIColor.systemGray5
+                } else {
+                    backgroundColor = #colorLiteral(red: 0.7803494334, green: 0.7761332393, blue: 0.7967314124, alpha: 1)
+                }
+            #else
+                if let backgroundColor = options.backgroundColor {
+                    self.backgroundColor = backgroundColor
+                }
+                else {
+                    backgroundColor = #colorLiteral(red: 0.7803494334, green: 0.7761332393, blue: 0.7967314124, alpha: 1)
+                }
+            #endif
         }
-    #else
-        if let backgroundColor = options.backgroundColor {
-            self.backgroundColor = backgroundColor
-        }
-        else {
-            backgroundColor = #colorLiteral(red: 0.7803494334, green: 0.7761332393, blue: 0.7967314124, alpha: 1)
-        }
-    #endif
+        
+        
+
         
         buttons = addButtons(for: self.actions, withMaximum: maxSize, contentEdgeInsets: contentEdgeInsets)
     }
@@ -285,6 +291,8 @@ class SwipeActionsView: UIView {
 class SwipeActionButtonWrapperView: UIView {
     let contentRect: CGRect
     var actionBackgroundColor: UIColor?
+    var firstColor: UIColor?
+    var secondColor: UIColor?
     
     init(frame: CGRect, action: SwipeAction, orientation: SwipeActionsOrientation, contentWidth: CGFloat) {
         switch orientation {
@@ -302,7 +310,9 @@ class SwipeActionButtonWrapperView: UIView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
-        if let actionBackgroundColor = self.actionBackgroundColor, let context = UIGraphicsGetCurrentContext() {
+        if let firstColor = self.firstColor, let secondColor = self.secondColor {
+            self.applyGradient(colours: [firstColor, secondColor])
+        } else if let actionBackgroundColor = self.actionBackgroundColor, let context = UIGraphicsGetCurrentContext() {
             actionBackgroundColor.setFill()
             context.fill(rect);
         }
@@ -313,6 +323,8 @@ class SwipeActionButtonWrapperView: UIView {
             isOpaque = false
             return
         }
+        self.firstColor = action.firstColor
+        self.secondColor = action.secondColor
         
         if let backgroundColor = action.backgroundColor {
             actionBackgroundColor = backgroundColor
@@ -345,4 +357,32 @@ class SwipeActionButtonWrapperView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+extension UIView {
+    func applyGradient(colours: [UIColor]) -> CAGradientLayer {
+        return self.applyGradient(colours: colours, locations: nil)
+    }
+
+    @discardableResult
+    func applyGradient(colours: [UIColor], locations: [NSNumber]? =  [0.0, 1.0], vertical: Bool = true) -> CAGradientLayer {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = colours.map { $0.cgColor }
+        //gradient.locations = [0.0, 1.0]
+        gradient.locations = locations
+        gradient.startPoint = vertical ? CGPoint(x: 0.5, y: 0) : CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = vertical ? CGPoint(x: 0.5, y: 1) : CGPoint(x: 1, y: 0.5)
+        gradient.frame = self.bounds
+        self.layer.sublayers?.removeAll(where: { (layer) -> Bool in
+            if let _ = layer as? CAGradientLayer {
+                return true
+            }
+            return false
+        })
+        self.layer.insertSublayer(gradient, at:0)
+       // self.backgroundColor = UIColor.init(named: "Main")
+        return gradient
+    }
+    
 }

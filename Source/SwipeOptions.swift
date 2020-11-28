@@ -26,6 +26,10 @@ public struct SwipeOptions {
     /// The background color behind the action buttons.
     public var backgroundColor: UIColor?
     
+    
+    public var firstColor: UIColor?
+    public var secondColor: UIColor?
+    
     /// The largest allowable button width.
     ///
     /// - note: By default, the value is set to the table/collection view divided by the number of action buttons minus some additional padding. If the value is set to 0, then word wrapping will not occur and the buttons will grow as large as needed to fit the entire title/image.

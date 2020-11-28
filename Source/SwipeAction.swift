@@ -68,7 +68,8 @@ public class SwipeAction: NSObject {
     ///
     /// - note: Use this property to specify the background color for your button. If you do not specify a value for this property, the framework assigns a default color based on the value in the style property.
     public var backgroundColor: UIColor?
-  
+    public var firstColor: UIColor?
+    public var secondColor: UIColor?
     /// The highlighted background color of the action button.
     ///
     /// - note: Use this property to specify the highlighted background color for your button.
