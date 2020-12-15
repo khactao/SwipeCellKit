@@ -35,7 +35,7 @@ class SwipeController: NSObject {
     weak var scrollView: UIScrollView?
     
     var animator: SwipeAnimator?
-    public var isEnableSwipe: Bool = true {
+    open var isEnableSwipe: Bool = true {
         didSet {
             if self.isEnableSwipe {
                 self.swipeable?.removeGestureRecognizer(self.panGestureRecognizer)
