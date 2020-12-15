@@ -33,7 +33,18 @@ open class SwipeTableViewCell: UITableViewCell {
     
     var swipeController: SwipeController!
     var isPreviouslySelected = false
-    
+    open var isEnable: Bool = true {
+        didSet {
+            if isEnable {
+                swipeController.swipeable?.isHidden = false
+                self.tableView?.panGestureRecognizer.removeTarget(self, action: nil)
+                self.tableView?.panGestureRecognizer.addTarget(self, action: #selector(handleTablePan(gesture:)))
+            } else {
+                swipeController.swipeable?.isHidden = true
+                self.tableView?.panGestureRecognizer.removeTarget(self, action: nil)
+            }
+        }
+    }
     weak var tableView: UITableView?
     
     /// :nodoc:
