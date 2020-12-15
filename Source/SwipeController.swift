@@ -35,6 +35,16 @@ class SwipeController: NSObject {
     weak var scrollView: UIScrollView?
     
     var animator: SwipeAnimator?
+    public var isEnableSwipe: Bool = true {
+        didSet {
+            if self.isEnableSwipe {
+                self.swipeable?.removeGestureRecognizer(self.panGestureRecognizer)
+                self.swipeable?.addGestureRecognizer(self.panGestureRecognizer)
+            } else {
+                self.swipeable?.removeGestureRecognizer(self.panGestureRecognizer)
+            }
+        }
+    }
     
     let elasticScrollRatio: CGFloat = 0.4
     
@@ -332,6 +342,7 @@ class SwipeController: NSObject {
         swipeable?.addGestureRecognizer(tapGestureRecognizer)
         swipeable?.addGestureRecognizer(panGestureRecognizer)
     }
+    
     
     func reset() {
         swipeable?.state = .center
