@@ -55,7 +55,7 @@ public class SwipeAction: NSObject {
     ///
     /// - note: You must specify a title or an image.
     public var image: UIImage?
-    
+    public var imageColor: UIColor?
     /// The highlighted image used for the action button.
     ///
     /// - note: If you do not specify a highlight image, the default `image` is used for the highlighted state.

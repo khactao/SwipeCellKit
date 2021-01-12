@@ -16,7 +16,7 @@ import UIKit
  */
 open class SwipeCollectionViewCell: UICollectionViewCell {
     /// The object that acts as the delegate of the `SwipeCollectionViewCell`.
-    public weak var delegate: SwipeCollectionViewCellDelegate?
+    public weak var collectionDelegate: SwipeCollectionViewCellDelegate?
     
     var state = SwipeState.center
     var actionsView: SwipeActionsView?

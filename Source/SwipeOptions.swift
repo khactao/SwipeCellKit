@@ -29,6 +29,7 @@ public struct SwipeOptions {
     
     public var firstColor: UIColor?
     public var secondColor: UIColor?
+    public var imageColor: UIColor?
     
     /// The largest allowable button width.
     ///
