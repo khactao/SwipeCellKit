@@ -119,11 +119,11 @@ class SwipeActionsView: UIView {
                 if let backgroundColor = options.backgroundColor {
                     self.backgroundColor = backgroundColor
                 } else {
-                     if #available(iOS 13.0, *) {
-                        backgroundColor = UIColor.systemGray5
-                    } else {
-                        backgroundColor = #colorLiteral(red: 0.7803494334, green: 0.7761332393, blue: 0.7967314124, alpha: 1)
-                    }
+//                     if #available(iOS 13.0, *) {
+//                        backgroundColor = UIColor.systemGray5
+//                    } else {
+//                        backgroundColor = #colorLiteral(red: 0.7803494334, green: 0.7761332393, blue: 0.7967314124, alpha: 1)
+//                    }
                 }
                
             #else

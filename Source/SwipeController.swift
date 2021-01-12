@@ -162,23 +162,25 @@ class SwipeController: NSObject {
             if swipeable.state.isActive == false && swipeable.bounds.midX == target.center.x  {
                 return
             }
+            swipeable.state = targetState(forVelocity: velocity)
             if isAllwaysHiddenSwipe {
                 let targetOffset = targetCenter(active: false)
                 let distance = targetOffset - actionsContainerView.center.x
                 let normalizedVelocity = velocity.x * scrollRatio / distance
                 
-                animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
-                    if self.swipeable?.state == .center {
-                        self.reset()
-                    }
+                animate(duration: 0.3, toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
+                   // if self.swipeable?.state == .center {
+                  
+                    self.swipeable?.state = .center
+                    self.reset()
+                   
+                   // }
+                   
                 }
-                
-                if !swipeable.state.isActive {
-                    delegate?.swipeController(self, didEndEditingSwipeableFor: actionsView.orientation)
-                }
+         
+                self.delegate?.swipeController(self, didEndEditingSwipeableFor: actionsView.orientation)
                 return
             }
-            swipeable.state = targetState(forVelocity: velocity)
             
             if actionsView.expanded == true, let expandedAction = actionsView.expandableAction  {
                 perform(action: expandedAction)
