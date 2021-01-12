@@ -215,19 +215,19 @@ extension SwipeCollectionViewCell: SwipeControllerDelegate {
     func swipeController(_ controller: SwipeController, editActionsForSwipeableFor orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard let collectionView = collectionView, let indexPath = collectionView.indexPath(for: self) else { return nil }
         
-        return delegate?.collectionView(collectionView, editActionsForItemAt: indexPath, for: orientation)
+        return collectionDelegate?.collectionView(collectionView, editActionsForItemAt: indexPath, for: orientation)
     }
     
     func swipeController(_ controller: SwipeController, editActionsOptionsForSwipeableFor orientation: SwipeActionsOrientation) -> SwipeOptions {
         guard let collectionView = collectionView, let indexPath = collectionView.indexPath(for: self) else { return SwipeOptions() }
         
-        return delegate?.collectionView(collectionView, editActionsOptionsForItemAt: indexPath, for: orientation) ?? SwipeOptions()
+        return collectionDelegate?.collectionView(collectionView, editActionsOptionsForItemAt: indexPath, for: orientation) ?? SwipeOptions()
     }
     
     func swipeController(_ controller: SwipeController, visibleRectFor scrollView: UIScrollView) -> CGRect? {
         guard let collectionView = collectionView else { return nil }
         
-        return delegate?.visibleRect(for: collectionView)
+        return collectionDelegate?.visibleRect(for: collectionView)
     }
     
     func swipeController(_ controller: SwipeController, willBeginEditingSwipeableFor orientation: SwipeActionsOrientation) {
@@ -238,7 +238,7 @@ extension SwipeCollectionViewCell: SwipeControllerDelegate {
         isPreviouslySelected = isSelected
         collectionView.deselectItem(at: indexPath, animated: false)
         
-        delegate?.collectionView(collectionView, willBeginEditingItemAt: indexPath, for: orientation)
+        collectionDelegate?.collectionView(collectionView, willBeginEditingItemAt: indexPath, for: orientation)
     }
     
     func swipeController(_ controller: SwipeController, didEndEditingSwipeableFor orientation: SwipeActionsOrientation) {
@@ -246,7 +246,7 @@ extension SwipeCollectionViewCell: SwipeControllerDelegate {
         
         resetSelectedState()
         
-        delegate?.collectionView(collectionView, didEndEditingItemAt: indexPath, for: actionsView.orientation)
+        collectionDelegate?.collectionView(collectionView, didEndEditingItemAt: indexPath, for: actionsView.orientation)
     }
     
     func swipeController(_ controller: SwipeController, didDeleteSwipeableAt indexPath: IndexPath) {
