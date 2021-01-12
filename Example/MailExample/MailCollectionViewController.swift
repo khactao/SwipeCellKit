@@ -39,7 +39,7 @@ class MailCollectionViewController: UICollectionViewController, UICollectionView
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MailCell", for: indexPath) as! MailCollectionViewCell
         
-        cell.delegate = self
+        cell.collectionDelegate = self
         cell.selectedBackgroundView = UIView()
         cell.selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
         

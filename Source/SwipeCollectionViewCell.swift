@@ -42,6 +42,16 @@ open class SwipeCollectionViewCell: UICollectionViewCell {
         get { return super.frame }
     }
     
+    open var isAllwaysHiddenSwipe: Bool = false {
+        didSet {
+            if self.isAllwaysHiddenSwipe {
+                self.swipeController.isAllwaysHiddenSwipe = true
+            } else {
+                self.swipeController.isAllwaysHiddenSwipe = false
+            }
+        }
+    }
+    
     /// :nodoc:
     open override var isHighlighted: Bool {
         set {
