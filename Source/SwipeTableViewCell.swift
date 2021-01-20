@@ -232,6 +232,11 @@ extension SwipeTableViewCell: SwipeControllerDelegate {
         delegate?.tableView(tableView, didEndEditingRowAt: indexPath, for: actionsView.orientation)
     }
     
+    func swipeController(_ controller: SwipeController, didSelectReply orientation: SwipeActionsOrientation) {
+        guard let tableView = tableView, let indexPath = tableView.indexPath(for: self), let actionsView = self.actionsView else { return }
+        delegate?.tableView(tableView, didSelectReply: indexPath, for: actionsView.orientation)
+    }
+    
     func swipeController(_ controller: SwipeController, didDeleteSwipeableAt indexPath: IndexPath) {
         tableView?.deleteRows(at: [indexPath], with: .none)
     }
