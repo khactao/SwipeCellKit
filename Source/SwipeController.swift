@@ -19,6 +19,7 @@ protocol SwipeControllerDelegate: class {
     func swipeController(_ controller: SwipeController, willBeginEditingSwipeableFor orientation: SwipeActionsOrientation)
     
     func swipeController(_ controller: SwipeController, didEndEditingSwipeableFor orientation: SwipeActionsOrientation)
+    func swipeController(_ controller: SwipeController, didSelectReply orientation: SwipeActionsOrientation)
     
     func swipeController(_ controller: SwipeController, didDeleteSwipeableAt indexPath: IndexPath)
     
