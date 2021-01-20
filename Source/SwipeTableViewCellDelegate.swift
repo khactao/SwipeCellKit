@@ -62,6 +62,8 @@ public protocol SwipeTableViewCellDelegate: class {
      */
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation)
     
+    func tableView(_ tableView: UITableView, didSelectReply indexPath: IndexPath?, for orientation: SwipeActionsOrientation)
+    
     /**
      Asks the delegate for visibile rectangle of the table view, which is used to ensure swipe actions are vertically centered within the visible portion of the cell.
      
@@ -84,7 +86,10 @@ public extension SwipeTableViewCellDelegate {
     
     func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) {}
     
+    
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation) {}
+    
+    func tableView(_ tableView: UITableView, didSelectReply indexPath: IndexPath?, for orientation: SwipeActionsOrientation) {}
     
     func visibleRect(for tableView: UITableView) -> CGRect? {
         return nil

@@ -19,6 +19,7 @@ protocol SwipeControllerDelegate: class {
     func swipeController(_ controller: SwipeController, willBeginEditingSwipeableFor orientation: SwipeActionsOrientation)
     
     func swipeController(_ controller: SwipeController, didEndEditingSwipeableFor orientation: SwipeActionsOrientation)
+    func swipeController(_ controller: SwipeController, didSelectReply orientation: SwipeActionsOrientation)
     
     func swipeController(_ controller: SwipeController, didDeleteSwipeableAt indexPath: IndexPath)
     
@@ -98,7 +99,15 @@ class SwipeController: NSObject {
                 let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
                 
                 showActionsView(for: orientation)
+                if isAllwaysHiddenSwipe {
+                    delegate?.swipeController(self, willBeginEditingSwipeableFor: orientation)
+                }
+            } else {
+                if isAllwaysHiddenSwipe {
+                    delegate?.swipeController(self, willBeginEditingSwipeableFor: .left)
+                }
             }
+           
         case .changed:
             guard let actionsView = swipeable.actionsView, let actionsContainerView = self.actionsContainerView else { return }
             guard swipeable.state.isActive else { return }
@@ -167,7 +176,9 @@ class SwipeController: NSObject {
                 let targetOffset = targetCenter(active: false)
                 let distance = targetOffset - actionsContainerView.center.x
                 let normalizedVelocity = velocity.x * scrollRatio / distance
-                
+                if distance > 100 {
+                    self.delegate?.swipeController(self, didSelectReply: actionsView.orientation)
+                }
                 animate(duration: 0.3, toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
                    // if self.swipeable?.state == .center {
                   
@@ -178,7 +189,7 @@ class SwipeController: NSObject {
                    
                 }
          
-                self.delegate?.swipeController(self, didEndEditingSwipeableFor: actionsView.orientation)
+               
                 return
             }
             

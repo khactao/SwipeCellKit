@@ -259,6 +259,11 @@ extension SwipeCollectionViewCell: SwipeControllerDelegate {
         collectionDelegate?.collectionView(collectionView, didEndEditingItemAt: indexPath, for: actionsView.orientation)
     }
     
+    func swipeController(_ controller: SwipeController, didSelectReply orientation: SwipeActionsOrientation) {
+        guard let collectionView = collectionView, let indexPath = collectionView.indexPath(for: self), let actionsView = self.actionsView else { return }
+        collectionDelegate?.collectionView(collectionView, didSelectReply: indexPath, for: actionsView.orientation)
+    }
+    
     func swipeController(_ controller: SwipeController, didDeleteSwipeableAt indexPath: IndexPath) {
         collectionView?.deleteItems(at: [indexPath])
     }
