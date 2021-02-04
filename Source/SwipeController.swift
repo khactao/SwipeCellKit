@@ -176,7 +176,7 @@ class SwipeController: NSObject {
                 let targetOffset = targetCenter(active: false)
                 let distance = targetOffset - actionsContainerView.center.x
                 let normalizedVelocity = velocity.x * scrollRatio / distance
-                if distance > 100 {
+                if distance > 60 {
                     self.delegate?.swipeController(self, didSelectReply: actionsView.orientation)
                 }
                 animate(duration: 0.3, toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
