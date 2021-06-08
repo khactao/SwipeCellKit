@@ -48,6 +48,7 @@ class SwipeController: NSObject {
     }
     
     open var isAllwaysHiddenSwipe: Bool = false
+    open var isReverse: Bool = false
     
     let elasticScrollRatio: CGFloat = 0.4
     
@@ -127,7 +128,7 @@ class SwipeController: NSObject {
             if (translation + originalCenter - swipeable.bounds.midX) * actionsView.orientation.scale > 0 {
                 target.center.x = gesture.elasticTranslation(in: target,
                                                              withLimit: .zero,
-                                                             fromOriginalCenter: CGPoint(x: originalCenter, y: 0)).x
+                                                             fromOriginalCenter: CGPoint(x: originalCenter, y: 0), isReverse: isReverse).x
                 swipeable.actionsView?.visibleWidth = abs((swipeable as Swipeable).frame.minX)
                 scrollRatio = elasticScrollRatio
                 return
@@ -150,7 +151,7 @@ class SwipeController: NSObject {
                     target.center.x = gesture.elasticTranslation(in: target,
                                                                  withLimit: CGSize(width: targetOffset, height: 0),
                                                                  fromOriginalCenter: CGPoint(x: originalCenter, y: 0),
-                                                                 applyingRatio: expansionStyle.targetOverscrollElasticity).x
+                                                                 applyingRatio: expansionStyle.targetOverscrollElasticity, isReverse: isReverse).x
                     swipeable.actionsView?.visibleWidth = abs(actionsContainerView.frame.minX)
                 }
                 
@@ -159,7 +160,7 @@ class SwipeController: NSObject {
                 target.center.x = gesture.elasticTranslation(in: target,
                                                              withLimit: CGSize(width: actionsView.preferredWidth, height: 0),
                                                              fromOriginalCenter: CGPoint(x: originalCenter, y: 0),
-                                                             applyingRatio: elasticScrollRatio).x
+                                                             applyingRatio: elasticScrollRatio, isReverse: isReverse).x
                 swipeable.actionsView?.visibleWidth = abs(actionsContainerView.frame.minX)
                 
                 if (target.center.x - originalCenter) / translation != 1.0 {
@@ -174,8 +175,11 @@ class SwipeController: NSObject {
             swipeable.state = targetState(forVelocity: velocity)
             if isAllwaysHiddenSwipe {
                 let targetOffset = targetCenter(active: false)
-                let distance = targetOffset - actionsContainerView.center.x
+                var distance = targetOffset - actionsContainerView.center.x
                 let normalizedVelocity = velocity.x * scrollRatio / distance
+                if isReverse {
+                    distance = -distance
+                }
                 if distance > 60 {
                     self.delegate?.swipeController(self, didSelectReply: actionsView.orientation)
                 }
