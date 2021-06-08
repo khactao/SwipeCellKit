@@ -52,6 +52,16 @@ open class SwipeCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    open var isReverse: Bool = false {
+        didSet {
+            if self.isReverse {
+                self.swipeController.isReverse = true
+            } else {
+                self.swipeController.isReverse = false
+            }
+        }
+    }
+    
     /// :nodoc:
     open override var isHighlighted: Bool {
         set {
